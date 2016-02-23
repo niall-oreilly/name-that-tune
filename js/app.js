@@ -1,4 +1,4 @@
-angular.module('nameThatTuneApp', ['ngRoute', 'ngAnimate' , 'controllersContainer', 'servicesContainer'])
+angular.module('nameThatTuneApp', ['ngRoute', 'ngAnimate' , 'controllersContainer', 'servicesContainer', 'directivesContainer'])
 .config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.

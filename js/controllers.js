@@ -12,7 +12,7 @@ angular.module('controllersContainer', [])
 
 
 })
-.controller('MainScreenController', function($scope, $rootScope, $http){
+.controller('MainScreenController', function($scope, $rootScope, $http, $timeout){
 
 
 
@@ -80,20 +80,27 @@ function initialise(){
 		var currentSongs = getSongs(songs, currentRound);
 		$scope.currentSongs = currentSongs;
 		var playingSong = pickASong(currentSongs);
-		$rootScope.playingSongSrc = playingSong.preview_url;
-		startMusic();
+
+		loadMusic(playingSong);		
+		
 	}
 
-	function startMusic(){
-		document.getElementByID('music-player').play();
+	function loadMusic(song){
+		angular.element('#music-player')[0].src = song.preview_url;
 	}
 
-	function stopMusic(){
-		document.getElementByID('music-player').stop();
+	$rootScope.startMusic = function (){
+		document.getElementById('music-player').play();
 	}
+
+	$rootScope.stopMusic = function (){
+		document.getElementById('music-player').pause();
+	}
+	
 
 	function pickASong(currentSongs){
-		return currentSongs[ randomNumberBetween(0,2) ];
+		pickedSongNum = randomNumberBetween(0,2);
+		return currentSongs[ pickedSongNum ];
 	}
 fetchTrackData();
 
@@ -102,6 +109,73 @@ fetchTrackData();
 
 };
 initialise();
+resetTimer();
+
+var pickedSongNum;
+
+$scope.makeChoice = function(num){
+	checkAnswer(num);
+
+
+}
+
+
+function setupRound(round){};
+
+
+function resetTimer(){
+	$scope.currentTimer = 1000;
+	$scope.newTimer = 1000;
+}
+
+
+function getTimer(){
+	var timer = $('#timer').text();
+	return Number(timer);
+}
+
+function startTimer(){
+	$scope.newTimer = 0;
+}
+
+function stopTimer(){
+	$scope.currentTimer = getTimer();
+	$scope.newTimer = getTimer();
+}
+
+function correctAnswer(){
+
+}
+
+var checkAnswer = function(num){
+	$rootScope.stopMusic();
+	stopTimer();
+	console.log('checkAnswer');
+	if(num == pickedSongNum){
+		
+		increaseScore(getTimer());
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+$scope.begin =  function(){
+	$rootScope.startMusic();
+	startTimer();
+}
+
+$scope.currentScore = 0;
+function increaseScore(score){
+
+	$scope.newScore = $scope.currentScore + score;
+	$timeout(function(){
+		$scope.currentScore = $scope.newScore;
+	}, 1000);
+}
+
+
 //get songs
 //display 1st 3 songs
 //pick 1 at random 
