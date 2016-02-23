@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="nameThatTuneApp">
+<head>
+	<title>Name that Tune</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-animate.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-route.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/controllers.js"></script>
+	<script type="text/javascript" src="js/services.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="styles/main.css">
+	
+</head>
+<body ng-controller="MainController">
+	<div ng-view></div>
+<audio id="music-player"></audio>
+<audio id="fx-player"></audio>
+</body>
+</html>
