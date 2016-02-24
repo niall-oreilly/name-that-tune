@@ -39,6 +39,7 @@ var directivesContainer = angular.module('directivesContainer', [])
                 }
 
                 var start = function () {
+                  
                     if (scope.timoutId) {
                         $timeout.cancel(scope.timoutId);
                     }

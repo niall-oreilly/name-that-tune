@@ -2,12 +2,13 @@
 <a href="#/start">Main Screen</a>
 Difficulty: {{difficulty}}
 <br><br>
-Top Score: {{topScore}} 
+High Score: {{highScore}} 
 <br><br>
 Current Score: <span count-to="{{newScore}}" value="{{currentScore}}" duration="2"></span>
 <br><br>
 Timer: <span id="timer" count-to="{{newTimer}}" value="{{currentTimer}}" duration="10"></span>
 <br>
+Round {{currentRound}}/10
 <div ng-show="displayChoices">
 <a ng-click="makeChoice(0)">{{currentSongs[0].artists[0].name}} - 
 {{currentSongs[0].name}}</a>
@@ -18,6 +19,7 @@ Timer: <span id="timer" count-to="{{newTimer}}" value="{{currentTimer}}" duratio
 <a ng-click="makeChoice(2)">{{currentSongs[2].artists[0].name}} - 
 {{currentSongs[2].name}}</a>
 </div>
-<button ng-click="begin()">Begin</button>
+
+<div ng-show="loadingSongs">Loading them tunes...</div>
 
 </section>
