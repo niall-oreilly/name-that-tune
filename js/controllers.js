@@ -24,7 +24,7 @@ angular.module('controllersContainer', [])
 
 
 })
-.controller('StartScreenController', function($scope, $rootScope){
+.controller('StartScreenController', function($scope, $rootScope, $document){
 	$rootScope.playMenuMusic();
 	$rootScope.gameInPlay = false;
 })
