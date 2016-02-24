@@ -8,6 +8,7 @@ Current Score: <span count-to="{{newScore}}" value="{{currentScore}}" duration="
 <br><br>
 Timer: <span id="timer" count-to="{{newTimer}}" value="{{currentTimer}}" duration="10"></span>
 <br>
+<div ng-show="displayChoices">
 <a ng-click="makeChoice(0)">{{currentSongs[0].artists[0].name}} - 
 {{currentSongs[0].name}}</a>
 <br>
@@ -16,7 +17,7 @@ Timer: <span id="timer" count-to="{{newTimer}}" value="{{currentTimer}}" duratio
 <br>
 <a ng-click="makeChoice(2)">{{currentSongs[2].artists[0].name}} - 
 {{currentSongs[2].name}}</a>
-
+</div>
 <button ng-click="begin()">Begin</button>
 
 </section>
