@@ -2,12 +2,12 @@
 <img class="logo" ng-src="images/logo.png">
 
 <section class="difficulty-selectors center">
-	<a animate-on-load ng-repeat="button in buttons" href="#/main" ng-click="$root.difficulty = 'easy'" class="fade-in difficulty-btn">
-		<img ng-src="images/{{button.image}}.jpg">
-		<p>{{button.text}}</p>
+	<a  href="#/main" ng-click="$root.difficulty = 'easy'" class="difficulty-btn">
+		<img ng-src="images/groupie.jpg">
+		<p>Only the most popular tunes will be played. If you've turned on the radio in the past while you're a shoe-in</p>
 	</a>
 
-	<!-- <a href="#/main" ng-click="$root.difficulty = 'medium'" class="difficulty-btn">
+	 <a href="#/main" ng-click="$root.difficulty = 'medium'" class="difficulty-btn">
 		<img src="images/roadie.jpg">
 		<p>A little bit less well known, but any music buff should be able to recognise these tunes</p>
 	</a>
@@ -15,7 +15,7 @@
 	<a href="#/main" ng-click="$root.difficulty = 'hard'" class="difficulty-btn">
 		<img src="images/rockstar.jpg">
 		<p>Only the most obscure tunes will be played. Consider yourself a musical genius? Prove you're worthy of Rockstar status.</p>
-	</a> -->
+	</a>
 
 
 </section>

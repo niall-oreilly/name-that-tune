@@ -6,7 +6,7 @@ angular.module('controllersContainer', [])
 	$rootScope.gameInPlay = false;
 	$rootScope.playMenuMusic = function(){
 		$rootScope.stopMusic();
-		$rootScope.loadMusic('background.mp3');
+		$rootScope.loadMusic('audio/background.mp3');
 		$rootScope.startMusic();
 	}
 
@@ -25,14 +25,9 @@ angular.module('controllersContainer', [])
 
 })
 .controller('StartScreenController', function($scope, $rootScope, $document){
-
-	$scope.buttons = [{text:"Only the most popular tunes will be played. If you've turned on the radio in the past while you're a shoe-in", image:'groupie', diff:'easy'},
-	{text:"A little bit less well known, but any music buff should be able to recognise these tunes", image:'roadie', diff:'medium'},
-	{text:"Only the most obscure tunes will be played. Consider yourself a musical genius? Prove you're worthy of Rockstar status.", image:'rockstar', diff:'hard'}];
-
 	$rootScope.playMenuMusic();
 	$rootScope.gameInPlay = false;
-	angular.element('.logo').addClass('slidedown');
+	// angular.element('.logo').addClass('slidedown');
 })
 .controller('MainScreenController', function($scope, $rootScope, $http, $timeout){
 
@@ -41,6 +36,10 @@ angular.module('controllersContainer', [])
 
 	var playingSong;//song object of the currently playing song
 	var pickedSongNum;///which of the 3 songs of the round will be played
+	var correctSfx = new Audio('audio/correct.mp3');
+	var incorrectSfx = new Audio('audio/scratch.mp3');
+	var currentCover;
+
 
 	$scope.makeChoice = makeChoice;
 	//$scope.startRound =  startRound;
@@ -49,6 +48,12 @@ angular.module('controllersContainer', [])
 	$scope.newTimer = 1000; ///the number to count to - we will set to 0 later
 	$scope.currentRound = 1;
 	$scope.loadingSongs = false;
+	$scope.needleOnOff = {on : false, off:true};
+	$scope.sleeve1 = {enter : false, leave: false};
+	$scope.sleeve2 = {enter : false, leave: false};
+	$scope.record1 = {enter : false, leave: false};
+	$scope.record2 = {enter : false, leave: false};
+
 
 
 	function randomNumberBetween(min,max){
@@ -146,11 +151,43 @@ angular.module('controllersContainer', [])
 		
 
 		function loadSleeve(){
-			///load new sleeve
+			if($scope.currentRound % 2 == 1){
+				$scope.sleeve1.leave = false;
+				$scope.sleeve2.leave = true;
+				$scope.sleeve1.enter = true;
+				$scope.sleeve2.enter = false;
+				currentCover = angular.element('#cover2');
+			}
+			else{
+				$scope.sleeve1.leave = true;
+				$scope.sleeve2.leave = false;
+				$scope.sleeve1.enter = false;
+				$scope.sleeve2.enter = true;
+				currentCover = angular.element('#cover2');	
+			}
+
+			$timeout(function(){
+				$scope.sleeve1.leave = false;
+				$scope.sleeve2.leave = false;
+				loadRecord();	
+			}, 500);
+			
 		}
 
 		function loadRecord(){
 			///load record to turntable
+			if($scope.currentRound % 2 == 1){
+				$scope.record1.leave = false;
+				$scope.record2.leave = true;
+				$scope.record1.enter = true;
+				$scope.record2.enter = false;
+			}
+			else{
+				$scope.record1.leave = true;
+				$scope.record2.leave = false;
+				$scope.record1.enter = false;
+				$scope.record2.enter = true;	
+			}
 		}
 
 		
@@ -159,6 +196,7 @@ angular.module('controllersContainer', [])
 		$scope.currentSongs = currentSongs;
 		playingSong = pickASong(currentSongs);
 		$rootScope.loadMusic(playingSong.preview_url);
+		loadSleeve();
 	}
 var stopRoundTimeout;
 	function startRound(){
@@ -167,6 +205,8 @@ var stopRoundTimeout;
 
 		function needleOn(){
 			////rotate the needle element
+			$scope.needleOnOff.on = true;
+			$scope.needleOnOff.off = false;
 		}
 
 		function recordSpin(state){
@@ -183,14 +223,15 @@ var stopRoundTimeout;
 			recordSpin('on');
 			///after 1s start music
 			///setTimeout
-			$rootScope.startMusic();
-			stopRoundTimeout = $timeout(function(){$scope.makeChoice(20)}, 10500);////make a wrong guess after 10secs unless the timeout has been cancelled
+			$timeout($rootScope.startMusic, 1000);
+			stopRoundTimeout = $timeout(function(){$scope.makeChoice(20); resetTimer()}, 10700);////make a wrong guess after 10secs unless the timeout has been cancelled
 		}
 		$scope.displayChoices = true;
 
 		///startDisplay()
-		startTurntable();
-		startTimer();	
+		$timeout(startTurntable, 3000);
+		$timeout(startTimer,4000);
+			
 	}	
 
 	function stopRound(){
@@ -199,6 +240,8 @@ var stopRoundTimeout;
 
 		function needleOff(){
 			//rotate the needle element
+			$scope.needleOnOff.on = false;
+			$scope.needleOnOff.off = true;
 		}
 
 		function stopTurntable(){
@@ -248,6 +291,7 @@ var stopRoundTimeout;
 		}
 
 		function revealAnswer(){
+			currentCover.addClass('flipped');
 			///spin sleeve
 			///make button green
 		}
@@ -261,13 +305,12 @@ var stopRoundTimeout;
 
 				///play flicking sfx
 			}
-
+			correctSfx.play();
 			increaseScore(getTimer());
-			//play correct sfx
 		}
 
 		function incorrectAnswer(){
-			///play buzzer sfx
+			incorrectSfx.play();
 		}
 
 

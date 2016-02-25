@@ -1,33 +1,125 @@
 <section id="main-screen">
-<a href="#/start">Main Screen</a>
-Difficulty: {{difficulty}}
-<br><br>
-High Score: {{highScore}} 
-<br><br>
-Current Score: <span class="lcd" count-to="{{newScore}}" value="{{currentScore}}" duration="2"></span>
-<br><br>
-Timer: <span class="lcd" id="timer" count-to="{{newTimer}}" value="{{currentTimer}}" duration="10"></span>
-<br>
-Round {{currentRound}}/10
-<div ng-show="displayChoices">
-<a ng-click="makeChoice(0)">{{currentSongs[0].artists[0].name}} - 
-{{currentSongs[0].name}}</a>
-<br>
-<a ng-click="makeChoice(1)">{{currentSongs[1].artists[0].name}} - 
-{{currentSongs[1].name}}</a>
-<br>
-<a ng-click="makeChoice(2)">{{currentSongs[2].artists[0].name}} - 
-{{currentSongs[2].name}}</a>
-</div>
+
+<section id="scoreboard">
+	<a href="#/start"><span class="fa fa-undo fa-2x back"></span></a>
+<img ng-src="images/logo_small.png" class="center">
+	<span class="lcd screen">
+		Difficulty: {{difficulty}}
+	</span>
+
+	<span class="lcd screen">
+		Round {{currentRound}}/10
+	</span>
+
+	<span class="lcd screen">
+		High Score: {{highScore}}
+	</span>
+
+	<span class="lcd screen">
+		Current Score: 
+		<span class="lcd" count-to="{{newScore}}" value="{{currentScore}}" duration="3"></span>
+	</span>
+
+	<span class="lcd screen">
+		Points: 
+		<span class="lcd" id="timer" count-to="{{newTimer}}" value="{{currentTimer}}" duration="10"></span>
+	</span>
+
+
+
+</section>
 
 <div ng-show="loadingSongs">Loading them tunes...</div>
 
-<div class="turntable">
-	<div class="body">
-		<div class="tonearm">
-   			<img src="images/table_tonearm.png" alt="" class="tonearm-image">
-  		</div>
-	</div>
-</div>
+
+
+<section id="play-area">
+
+	<div class="turntable">
+		<div class="body">
+			<div class="platter">
+			   <div class="ring" style="transform: rotate3d(0, 0, 1, 0deg);"></div>
+			   <div class="record">
+			    <div class="record-ui" style="transform: rotate3d(0, 0, 1, 0deg);">
+				     <div class="slipmat"></div>
+				     <div class="slipmat slipmat-y"></div>
+				     <div class="slipmat slipmat-f"></div>
+				     <div class="grooves"></div>
+				     <div class="loader"></div>
+				     <div class="label"></div>
+				     <div class="label-notches"></div>
+				    </div>
+				    <div class="spindle"></div>
+				    <div class="shiny"></div>
+				    <div class="cover"></div>
+
+			   </div>
+			</div>
+			<div class="tonearm" ng-class="needleOnOff">
+	   			<img src="images/table_tonearm.png" alt="" class="tonearm-image">
+	  		</div>
+		</div>
+
+
+
+		<div id="record-area">
+
+		<section class="cover-container" ng-class="sleeve1">
+		  <div class="record one" ng-class="record1"></div>
+		  <div class="cover" id="cover1">
+		    <figure class="front"></figure>
+		    <figure class="back">Back</figure>
+		  </div>
+		</section>
+			
+		<section class="cover-container" ng-class="sleeve2">
+		<div class="record two" ng-class="record2"></div>
+		  <div class="cover" id="cover2">
+		    <figure class="front"></figure>
+		    <figure class="back">Back</figure>
+		  </div>
+		</section>
+
+	</div><!-- record area -->
+
+	</div><!-- turntable -->
+
+	
+
+
+
+<section id="choices" ng-show="displayChoices">
+	<a ng-click="makeChoice(0)">
+		<span class="fa fa-user fa-lg"></span>  {{currentSongs[0].artists[0].name}} 
+		<br><br>
+		<span class="fa fa-music fa-lg"></span>  {{currentSongs[0].name}}
+	</a>
+
+	<a ng-click="makeChoice(1)">
+		<span class="fa fa-user fa-lg"></span>  {{currentSongs[1].artists[0].name}} 
+		<br><br>
+		<span class="fa fa-music fa-lg"></span>  {{currentSongs[1].name}}
+	</a>
+
+	<a ng-click="makeChoice(2)">
+		<span class="fa fa-user fa-lg"></span>  {{currentSongs[2].artists[0].name}} 
+		<br> <br>
+		<span class="fa fa-music fa-lg"></span>   {{currentSongs[2].name}}
+	</a>
 
 </section>
+
+
+</section><!-- play-area -->
+
+
+
+
+
+
+
+
+
+</section><!--main-screen-->
+
+
