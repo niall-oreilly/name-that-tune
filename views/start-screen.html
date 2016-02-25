@@ -2,7 +2,7 @@
 <img class="logo" ng-src="images/logo.png">
 
 <section class="difficulty-selectors center">
-	<a animate-on-load ng-repeat="button in buttons" href="#/main" ng-click="$root.difficulty = {{button.diff}}" class="fade-in difficulty-btn">
+	<a animate-on-load ng-repeat="button in buttons" href="#/main" ng-click="$root.difficulty = 'easy'" class="fade-in difficulty-btn">
 		<img ng-src="images/{{button.image}}.jpg">
 		<p>{{button.text}}</p>
 	</a>

@@ -176,3 +176,37 @@ body{
 .fade-in.ng-enter-stagger{
 	transition-delay:0.5s;
 }
+
+
+
+
+
+.turntable .body {
+    position: relative;
+    margin-top: 26px;
+    margin-left: 31px;
+    background: #30313b url(../images/table_body.png) no-repeat 0px 3px;
+    /* background-color: rgb(216, 215, 209); */
+    width: 500px;
+    height: 375px;
+    overflow: hidden;
+    border-radius: 3px;
+}
+
+.turntable .tonearm {
+    position: absolute;
+    left: 375px;
+    top: -7px;
+    width: 95px;
+    height: 180px;
+    z-index: 2;
+    transform:rotateZ(5deg);
+}
+
+.turntable .tonearm.off{
+	transform:rotateZ(5deg);
+}
+
+.turntable .tonearm.on{
+	transform:rotateZ(40deg);
+}
