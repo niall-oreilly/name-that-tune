@@ -6,7 +6,7 @@ angular.module('controllersContainer', [])
 	$rootScope.gameInPlay = false;
 	$rootScope.playMenuMusic = function(){
 		$rootScope.stopMusic();
-		$rootScope.loadMusic('menusong.mp3');
+		$rootScope.loadMusic('background.mp3');
 		$rootScope.startMusic();
 	}
 
@@ -25,8 +25,14 @@ angular.module('controllersContainer', [])
 
 })
 .controller('StartScreenController', function($scope, $rootScope, $document){
+
+	$scope.buttons = [{text:"Only the most popular tunes will be played. If you've turned on the radio in the past while you're a shoe-in", image:'groupie', diff:'easy'},
+	{text:"A little bit less well known, but any music buff should be able to recognise these tunes", image:'roadie', diff:'medium'},
+	{text:"Only the most obscure tunes will be played. Consider yourself a musical genius? Prove you're worthy of Rockstar status.", image:'rockstar', diff:'hard'}];
+
 	$rootScope.playMenuMusic();
 	$rootScope.gameInPlay = false;
+	angular.element('.logo').addClass('slidedown');
 })
 .controller('MainScreenController', function($scope, $rootScope, $http, $timeout){
 

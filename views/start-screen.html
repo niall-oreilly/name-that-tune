@@ -2,27 +2,22 @@
 <img class="logo" ng-src="images/logo.png">
 
 <section class="difficulty-selectors center">
-	<div class="difficulty-btn">
-		<img src="images/groupie.jpg">
-		<p>GROUPIE</p>
-	</div>
+	<a animate-on-load ng-repeat="button in buttons" href="#/main" ng-click="$root.difficulty = {{button.diff}}" class="fade-in difficulty-btn">
+		<img ng-src="images/{{button.image}}.jpg">
+		<p>{{button.text}}</p>
+	</a>
 
-	<div class="difficulty-btn">
+	<!-- <a href="#/main" ng-click="$root.difficulty = 'medium'" class="difficulty-btn">
 		<img src="images/roadie.jpg">
-		<p>ROADIE</p>
-	</div>
+		<p>A little bit less well known, but any music buff should be able to recognise these tunes</p>
+	</a>
 
-	<div class="difficulty-btn">
+	<a href="#/main" ng-click="$root.difficulty = 'hard'" class="difficulty-btn">
 		<img src="images/rockstar.jpg">
-		<p>ROCKSTAR</p>
-	</div>
+		<p>Only the most obscure tunes will be played. Consider yourself a musical genius? Prove you're worthy of Rockstar status.</p>
+	</a> -->
 
 
 </section>
-<a ng-click="$root.difficulty = 'easy'">Easy</a>
-<a ng-click="$root.difficulty = 'medium'">Medium</a>
-<a ng-click="$root.difficulty = 'hard'">Hard</a>
-<br>
 
-<a href="#/main">Start</a>
 </section>
