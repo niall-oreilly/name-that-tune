@@ -2,8 +2,10 @@ angular.module('controllersContainer', [])
 .controller('MainController', function($scope, $rootScope){
 	
 	$rootScope.difficulty = 'easy';
-	
+	$rootScope.currentScore = 0;
 	$rootScope.gameInPlay = false;
+	$rootScope.highScore = localStorage.getItem($rootScope.difficulty+'highScore') || 0;
+	$rootScope.stopRoundTimeout;
 	$rootScope.playMenuMusic = function(){
 		$rootScope.stopMusic();
 		$rootScope.loadMusic('audio/background.mp3');
@@ -24,12 +26,13 @@ angular.module('controllersContainer', [])
 
 
 })
-.controller('StartScreenController', function($scope, $rootScope, $document){
+.controller('StartScreenController', function($scope, $rootScope, $document, $timeout){
 	$rootScope.playMenuMusic();
 	$rootScope.gameInPlay = false;
+	$timeout.cancel($rootScope.stopRoundTimeout);
 	// angular.element('.logo').addClass('slidedown');
 })
-.controller('MainScreenController', function($scope, $rootScope, $http, $timeout){
+.controller('MainScreenController', function($scope, $rootScope, $http, $timeout, $location){
 
 	var allSongs = [];//all 30 songs that will be loaded from spotify
 	var currentSongs = {}; //3 songs to be used per round
@@ -38,7 +41,7 @@ angular.module('controllersContainer', [])
 	var pickedSongNum;///which of the 3 songs of the round will be played
 	var correctSfx = new Audio('audio/correct.mp3');
 	var incorrectSfx = new Audio('audio/scratch.mp3');
-	var currentCover;
+	var currentCover = angular.element('#cover1');
 
 
 	$scope.makeChoice = makeChoice;
@@ -86,7 +89,7 @@ angular.module('controllersContainer', [])
 
 	(function initialiseGame(){
 		$scope.currentScore = 0;
-		$rootScope.highScore = localStorage.getItem($rootScope.difficulty+'highScore') || 0;
+		
 		$rootScope.gameInPlay = true;
 		$rootScope.stopMusic();
 		///Set spotify's list offset based on the difficulty setting
@@ -99,15 +102,15 @@ angular.module('controllersContainer', [])
 
 			if(diff === 'easy'){
 				offset_min = 0; ///only possible to get the 100 most popular songs
-				offset_max = 70;
+				offset_max = 170;
 			}
 			else if(diff === 'medium'){
-				offset_min = 600;
-				offset_max = 1200;
+				offset_min = 2000;
+				offset_max = 5000;
 			}
 			else{
-				offset_min = 4000;
-				offset_max = 7000;
+				offset_min = 8000;
+				offset_max = 12000;
 			}
 
 			
@@ -134,7 +137,7 @@ angular.module('controllersContainer', [])
 	})();
 
 	function setupRound(round){
-
+		currentCover.removeClass('flipped');
 		function getCurrentSongs(round){///get 3 songs based on what round it is
 			var startingPoint = (round*3)-3;
 			song1 = allSongs[startingPoint];
@@ -156,14 +159,18 @@ angular.module('controllersContainer', [])
 				$scope.sleeve2.leave = true;
 				$scope.sleeve1.enter = true;
 				$scope.sleeve2.enter = false;
-				currentCover = angular.element('#cover2');
+				currentCover = angular.element('#cover1');
+				$scope.cover1Art = playingSong.album.images[0].url;
 			}
 			else{
 				$scope.sleeve1.leave = true;
 				$scope.sleeve2.leave = false;
 				$scope.sleeve1.enter = false;
 				$scope.sleeve2.enter = true;
-				currentCover = angular.element('#cover2');	
+				currentCover = angular.element('#cover2');
+				$scope.cover2Art = playingSong.album.images[0].url;
+				console.log(playingSong);
+
 			}
 
 			$timeout(function(){
@@ -176,6 +183,22 @@ angular.module('controllersContainer', [])
 
 		function loadRecord(){
 			///load record to turntable
+			if($scope.currentRound % 2 == 1){
+				$scope.record1.leave = false;
+				$scope.record2.leave = true;
+				$scope.record1.enter = true;
+				$scope.record2.enter = false;
+			}
+			else{
+				$scope.record1.leave = true;
+				$scope.record2.leave = false;
+				$scope.record1.enter = false;
+				$scope.record2.enter = true;	
+			}
+		}
+
+		function unloadRecord(){
+			///unload record from turntable
 			if($scope.currentRound % 2 == 1){
 				$scope.record1.leave = false;
 				$scope.record2.leave = true;
@@ -224,7 +247,7 @@ var stopRoundTimeout;
 			///after 1s start music
 			///setTimeout
 			$timeout($rootScope.startMusic, 1000);
-			stopRoundTimeout = $timeout(function(){$scope.makeChoice(20); resetTimer()}, 10700);////make a wrong guess after 10secs unless the timeout has been cancelled
+			$rootScope.stopRoundTimeout = $timeout(function(){$scope.makeChoice(20); resetTimer()}, 10700);////make a wrong guess after 10secs unless the timeout has been cancelled
 		}
 		$scope.displayChoices = true;
 
@@ -235,7 +258,7 @@ var stopRoundTimeout;
 	}	
 
 	function stopRound(){
-		$timeout.cancel(stopRoundTimeout); //// cancel the stopRound timeout since it's already stopped
+		$timeout.cancel($rootScope.stopRoundTimeout); //// cancel the stopRound timeout since it's already stopped
 		
 
 		function needleOff(){
@@ -268,11 +291,14 @@ var stopRoundTimeout;
 	}
 
 	function gameOver(){
+
 		if($scope.currentScore > $rootScope.highScore){
 			///show new high score message
 			$rootScope.highScore = $scope.currentScore;
 			localStorage.setItem($rootScope.difficulty+'highScore', $scope.currentScore);
 		}
+		$rootScope.currentScore = $scope.currentScore;
+		$location.path('/finish');
 
 		///if score < 1000 say hard luck loser etc
 		///if more than 8000 $scope.message = well done
@@ -366,8 +392,8 @@ var stopRoundTimeout;
 
 
 })
-.controller('FinishScreenController', function($scope, $rootScope){
+.controller('FinishScreenController', function($scope, $rootScope, $timeout){
 	$rootScope.playMenuMusic();
 	$rootScope.gameInPlay = false;
-
+	$timeout.cancel($rootScope.stopRoundTimeout);
 })
