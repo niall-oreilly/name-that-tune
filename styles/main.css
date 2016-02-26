@@ -14,7 +14,7 @@
 #main-screen{
 	width:100%;
 	min-height:100vh;
-	background-image:url(http://ivsdirect.com/wp-content/uploads/2016/01/dark-wood-table-top-rustic-black-walnut-table-top-detail.jpg);
+	background-image:url(../images/wood.jpg);
 	padding-top:100px;
 }
 
@@ -144,7 +144,7 @@ body{
 
 #scoreboard{
 	background: url(../images/scoreboard-border.png) top right no-repeat,
-				url(http://orig02.deviantart.net/be81/f/2012/144/7/9/79b9e519b1ac8911e62c5d1c2e513e2c-d50x8uf.jpg) repeat;
+				url(../images/steel.jpg) repeat;
 	background:;
 	padding:10px; 
 	min-width:200px;
@@ -252,6 +252,19 @@ body{
     overflow: hidden;
     border-radius: 3px;
     background-size: cover;
+}
+
+.turntable .platter{
+	position: absolute;
+    top: 6px;
+    left: 20px;
+}
+
+.turntable .platter .ring {
+    width: 291px;
+    height: 291px;
+    background: transparent url(../images/table_platter.png) no-repeat 0px 0px;
+    background-size:cover;
 }
 
 .turntable .tonearm {
@@ -444,4 +457,16 @@ z-index:11;
 	text-align: center;
 	font-weight:bold;
 	padding:20px 15px;
+	box-shadow:0px 0px 8px rgba(0,0,0,0.3);
+	text-shadow:0px 0px 8px rgba(0,0,0,0.3);
+}
+
+#choices a.green{
+	color:#02D427;
+	border-color:#02D427;
+}
+
+#choices a.red{
+	color:orangered;
+	border-color:orangered;
 }

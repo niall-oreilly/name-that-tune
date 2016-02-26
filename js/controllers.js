@@ -44,7 +44,7 @@ angular.module('controllersContainer', [])
 	var currentCover = angular.element('#cover1');
 	var stopRoundTimeout;
 
-	$scope.makeChoice = makeChoice;
+	$scope.makeChoice;
 	//$scope.startRound =  startRound;
 	$scope.displayChoices = false;
 	$scope.currentTimer = 1000;
@@ -56,7 +56,9 @@ angular.module('controllersContainer', [])
 	$scope.sleeve2 = {enter : false, leave: false};
 	$scope.record1 = {enter : false, leave: false};
 	$scope.record2 = {enter : false, leave: false};
-
+	$scope.choiceColors = [{green:false, red:false}, 
+							{green:false, red:false},
+							{green:false, red:false}];
 
 
 	function randomNumberBetween(min,max){
@@ -139,6 +141,8 @@ angular.module('controllersContainer', [])
 
 	function setupRound(round){
 		currentCover.removeClass('flipped');
+
+
 		function getCurrentSongs(round){///get 3 songs based on what round it is
 			var startingPoint = (round*3)-3;
 			song1 = allSongs[startingPoint];
@@ -152,6 +156,14 @@ angular.module('controllersContainer', [])
 			return currentSongs[ pickedSongNum ];
 		}
 
+		function choiceColorsReset(){
+			$scope.choiceColors[0].green = false;
+			$scope.choiceColors[0].red = false;
+			$scope.choiceColors[1].green = false;
+			$scope.choiceColors[1].red = false;
+			$scope.choiceColors[2].green = false;
+			$scope.choiceColors[2].red = false;
+		}
 		
 
 		function loadSleeve(){
@@ -179,6 +191,7 @@ angular.module('controllersContainer', [])
 				$scope.sleeve2.leave = false;
 				loadRecord();	
 			}, 500);
+			choiceColorsReset();
 			
 		}
 
@@ -249,9 +262,11 @@ angular.module('controllersContainer', [])
 			recordSpin('on');
 			///after 1s start music
 			///setTimeout
-			$timeout($rootScope.startMusic, 1000);
+			$timeout(function(){$rootScope.startMusic(); unfreezeUI()}, 1000);
+			
 			stopRoundTimeout = $timeout(function(){$scope.makeChoice(20); resetTimer()}, 10700);////make a wrong guess after 10secs unless the timeout has been cancelled
 			$rootScope.stopRoundTimeout = stopRoundTimeout;
+
 		}
 
 		$scope.displayChoices = true;
@@ -259,7 +274,6 @@ angular.module('controllersContainer', [])
 		///startDisplay()
 		$timeout(startTurntable, 3000);
 		$timeout(startTimer,4000);
-		unfreezeUI();
 
 			
 	}	
@@ -329,8 +343,13 @@ angular.module('controllersContainer', [])
 			}
 		}
 
-		function revealAnswer(){
+		function revealAnswer(correct){
 			currentCover.addClass('flipped');
+			$scope.choiceColors[0].red = true;
+			$scope.choiceColors[1].red = true;
+			$scope.choiceColors[2].red = true;
+			$scope.choiceColors[correct].red = false;
+			$scope.choiceColors[correct].green = true;
 			///spin sleeve
 			///make button green
 		}
@@ -355,7 +374,7 @@ angular.module('controllersContainer', [])
 
 		stopRound();
 		freezeUI();
-		revealAnswer();
+		revealAnswer(pickedSongNum);
 		if(checkAnswer(num) == true){
 			correctAnswer();
 		}

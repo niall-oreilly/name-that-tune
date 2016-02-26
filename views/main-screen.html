@@ -83,22 +83,22 @@
 	
 
 
-<div id="loading" ng-show="loadingSongs"><span class="fa fa-circle-o-notch fa-spin"></span>  Loading them tunes...</div>
+<div id="loading" ng-show="loadingSongs"><span class="fa fa-circle-o-notch fa-spin"></span>  Loading tunes...</div>
 
 <section id="choices" ng-show="displayChoices">
-	<a ng-click="makeChoice(0)">
+	<a ng-click="makeChoice(0)" ng-class="choiceColors[0]">
 		<span class="fa fa-user fa-lg"></span>  {{currentSongs[0].artists[0].name}} 
 		<br><br>
 		<span class="fa fa-music fa-lg"></span>  {{currentSongs[0].name}}
 	</a>
 
-	<a ng-click="makeChoice(1)">
+	<a ng-click="makeChoice(1)" ng-class="choiceColors[1]">
 		<span class="fa fa-user fa-lg"></span>  {{currentSongs[1].artists[0].name}} 
 		<br><br>
 		<span class="fa fa-music fa-lg"></span>  {{currentSongs[1].name}}
 	</a>
 
-	<a ng-click="makeChoice(2)">
+	<a ng-click="makeChoice(2)" ng-class="choiceColors[2]">
 		<span class="fa fa-user fa-lg"></span>  {{currentSongs[2].artists[0].name}} 
 		<br> <br>
 		<span class="fa fa-music fa-lg"></span>   {{currentSongs[2].name}}
