@@ -4,7 +4,7 @@ angular.module('controllersContainer', [])
 	$rootScope.difficulty = 'easy';
 	$rootScope.currentScore = 0;
 	$rootScope.gameInPlay = false;
-	$rootScope.highScore = localStorage.getItem($rootScope.difficulty+'highScore') || 0;
+	$rootScope.highScore;
 	$rootScope.stopRoundTimeout;
 	$rootScope.playMenuMusic = function(){
 		$rootScope.stopMusic();
@@ -42,7 +42,7 @@ angular.module('controllersContainer', [])
 	var correctSfx = new Audio('audio/correct.mp3');
 	var incorrectSfx = new Audio('audio/scratch.mp3');
 	var currentCover = angular.element('#cover1');
-
+	var stopRoundTimeout;
 
 	$scope.makeChoice = makeChoice;
 	//$scope.startRound =  startRound;
@@ -89,7 +89,8 @@ angular.module('controllersContainer', [])
 
 	(function initialiseGame(){
 		$scope.currentScore = 0;
-		
+		$rootScope.highScore = localStorage.getItem($rootScope.difficulty+'highScore') || 0;
+		$scope.highScore = $rootScope.highScore;
 		$rootScope.gameInPlay = true;
 		$rootScope.stopMusic();
 		///Set spotify's list offset based on the difficulty setting
@@ -197,21 +198,21 @@ angular.module('controllersContainer', [])
 			}
 		}
 
-		function unloadRecord(){
-			///unload record from turntable
-			if($scope.currentRound % 2 == 1){
-				$scope.record1.leave = false;
-				$scope.record2.leave = true;
-				$scope.record1.enter = true;
-				$scope.record2.enter = false;
-			}
-			else{
-				$scope.record1.leave = true;
-				$scope.record2.leave = false;
-				$scope.record1.enter = false;
-				$scope.record2.enter = true;	
-			}
-		}
+		// function unloadRecord(){
+		// 	///unload record from turntable
+		// 	if($scope.currentRound % 2 == 1){
+		// 		$scope.record1.leave = false;
+		// 		$scope.record2.leave = true;
+		// 		$scope.record1.enter = true;
+		// 		$scope.record2.enter = false;
+		// 	}
+		// 	else{
+		// 		$scope.record1.leave = true;
+		// 		$scope.record2.leave = false;
+		// 		$scope.record1.enter = false;
+		// 		$scope.record2.enter = true;	
+		// 	}
+		// }
 
 		
 		resetTimer();
@@ -221,10 +222,12 @@ angular.module('controllersContainer', [])
 		$rootScope.loadMusic(playingSong.preview_url);
 		loadSleeve();
 	}
-var stopRoundTimeout;
+
 	function startRound(){
 
-		////setTimeout 10s stopRound()
+		function unfreezeUI(){
+			$scope.makeChoice = makeChoice;
+		}
 
 		function needleOn(){
 			////rotate the needle element
@@ -247,19 +250,24 @@ var stopRoundTimeout;
 			///after 1s start music
 			///setTimeout
 			$timeout($rootScope.startMusic, 1000);
-			$rootScope.stopRoundTimeout = $timeout(function(){$scope.makeChoice(20); resetTimer()}, 10700);////make a wrong guess after 10secs unless the timeout has been cancelled
+			stopRoundTimeout = $timeout(function(){$scope.makeChoice(20); resetTimer()}, 10700);////make a wrong guess after 10secs unless the timeout has been cancelled
+			$rootScope.stopRoundTimeout = stopRoundTimeout;
 		}
+
 		$scope.displayChoices = true;
 
 		///startDisplay()
 		$timeout(startTurntable, 3000);
 		$timeout(startTimer,4000);
+		unfreezeUI();
+
 			
 	}	
 
 	function stopRound(){
-		$timeout.cancel($rootScope.stopRoundTimeout); //// cancel the stopRound timeout since it's already stopped
+		$timeout.cancel(stopRoundTimeout); //// cancel the stopRound timeout since it's already stopped
 		
+	
 
 		function needleOff(){
 			//rotate the needle element
@@ -272,9 +280,10 @@ var stopRoundTimeout;
 			$rootScope.stopMusic();
 		}
 
+		//freezeUI();
 		stopTimer();	
 		///stopDisplay()
-		stopTurntable()
+		stopTurntable();
 	}
 
 	function nextRound(){
@@ -306,7 +315,11 @@ var stopRoundTimeout;
 	}
 
 	function makeChoice(num){
-		
+
+		function freezeUI(){///stop user from being able to click multiple times to rack up points
+			$scope.makeChoice = function(){};
+		}
+
 		function checkAnswer(num){
 			if(num == pickedSongNum){
 				return true;
@@ -341,6 +354,7 @@ var stopRoundTimeout;
 
 
 		stopRound();
+		freezeUI();
 		revealAnswer();
 		if(checkAnswer(num) == true){
 			correctAnswer();
@@ -396,4 +410,6 @@ var stopRoundTimeout;
 	$rootScope.playMenuMusic();
 	$rootScope.gameInPlay = false;
 	$timeout.cancel($rootScope.stopRoundTimeout);
+	$scope.highScore = localStorage.getItem($rootScope.difficulty+"highScore");
+	$scope.difficulties = {'easy': "Groupie", 'medium': "Roadie", 'hard':'Rockstar'};
 })

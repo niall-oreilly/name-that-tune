@@ -29,7 +29,7 @@
 
 </section>
 
-<div ng-show="loadingSongs">Loading them tunes...</div>
+
 
 
 
@@ -38,16 +38,12 @@
 	<div class="turntable">
 		<div class="body">
 			<div class="platter">
-			   <div class="ring" style="transform: rotate3d(0, 0, 1, 0deg);"></div>
+			   <div class="ring"></div>
 			   <div class="record">
-			    <div class="record-ui" style="transform: rotate3d(0, 0, 1, 0deg);">
-				     <div class="slipmat"></div>
-				     <div class="slipmat slipmat-y"></div>
-				     <div class="slipmat slipmat-f"></div>
+			    <div class="record-ui">
+
 				     <div class="grooves"></div>
-				     <div class="loader"></div>
-				     <div class="label"></div>
-				     <div class="label-notches"></div>
+
 				    </div>
 				    <div class="spindle"></div>
 				    <div class="shiny"></div>
@@ -87,6 +83,7 @@
 	
 
 
+<div id="loading" ng-show="loadingSongs"><span class="fa fa-circle-o-notch fa-spin"></span>  Loading them tunes...</div>
 
 <section id="choices" ng-show="displayChoices">
 	<a ng-click="makeChoice(0)">

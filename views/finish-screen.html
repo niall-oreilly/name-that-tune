@@ -1,5 +1,13 @@
 <section id="finish-screen">
-	 You scored {{$root.currentScore}}. The High score is {{$root.highScore}}
-	<a href="#/main">Try Again?</a>
+<img class="logo" ng-src="images/logo.png">
+<span>Difficulty: {{difficulties[$root.difficulty]}}</span><br>
+<span>High Score: {{highScore}}</span><br>
+<span>You Scored: {{$root.currentScore}}</span>
+
+
+
+	 <div class="finish-btns">
+	<a href="#/main">Try Again?</a>  
 	<a href="#/start">Change Difficulty</a>
+	 </div>
 </section>

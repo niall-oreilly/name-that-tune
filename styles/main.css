@@ -25,6 +25,20 @@
 
 #finish-screen{
 	width:100%;
+	text-align:center;
+	font-size:40px;
+	font-weight:bold;
+	color:white;
+	text-shadow:0 0 5px black;
+}
+
+#finish-screen a{
+	color:white;
+	text-decoration:none;
+	display:inline-block;
+	padding:10px;
+	border:4px solid white;
+	border-radius:4px;
 }
 
 *{
@@ -121,6 +135,13 @@ body{
 }
 
 
+#loading{
+	text-align:center;
+	font-size:40px;
+	color:white;
+	clear:both;
+}
+
 #scoreboard{
 	background: url(../images/scoreboard-border.png) top right no-repeat,
 				url(http://orig02.deviantart.net/be81/f/2012/144/7/9/79b9e519b1ac8911e62c5d1c2e513e2c-d50x8uf.jpg) repeat;
@@ -154,8 +175,6 @@ body{
 }
 
 
-
-
 .view-slide-in.ng-enter {
   transition: all 1s cubic-bezier(0.25, 0.1, 0.45, 1.46);
   -webkit-transition:all 1s cubic-bezier(0.25, 0.1, 0.45, 1.46);
@@ -169,29 +188,23 @@ body{
   left:0px;
 }
 
-.view-slide-in.ng-enter {
-  opacity: 0;
-}
 .view-slide-in.ng-enter.ng-enter-active {
   top:0;
   left:0;
   opacity: 1;
 }
-.view-slide-in.ng-leave.ng-leave-active{
-  top:5px;
-  left:5px;
-  opacity:1;
-}
+
 .view-slide-in.ng-leave{
-  top:0;
-  left:0;
+  opacity:1;
+  transition: opacity 0.2s ease-out;
+}
+
+.view-slide-in.ng-leave.ng-leave-active{
   opacity:0;
 }
 
 
-
-
-.fade-in.ng-enter {
+/*.fade-in.ng-enter {
   opacity: 0;
   transition:opacity 0.3s ease-out;
 }
@@ -201,12 +214,7 @@ body{
 
 .fade-in.ng-enter-stagger{
 	transition-delay:0.5s;
-}
-
-
-
-
-
+}*/
 
 
 
@@ -429,7 +437,7 @@ z-index:11;
 #choices a{
 	display: block;
 	width:25%;
-	border:2px solid white;
+	border:3px solid white;
 	border-radius:5px;
 	color:white;
 	cursor:pointer;
