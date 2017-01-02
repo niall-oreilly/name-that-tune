@@ -122,7 +122,7 @@ angular.module('controllersContainer', [])
 		}
 
 		function getSpotifyUrl(){
-			return 'https://api.spotify.com/v1/search?q=year%3A1900-2040&type=track&market=IE&limit=30&offset='+getOffset($rootScope.difficulty);
+			return 'https://api.spotify.com/v1/search?q=year%3A1990-2019&type=track&market=IE&limit=30&offset='+getOffset($rootScope.difficulty);
 		}
 
 		function fetchTrackData(){
